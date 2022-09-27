@@ -1,3 +1,4 @@
+
 class Controller {
     constructor() {
         this.listOfItems = JSON.parse(localStorage.getItem('items'));
@@ -13,6 +14,7 @@ class Controller {
         }
         this.listOfItems[groupe].push(newContact);
         localStorage.setItem('items', JSON.stringify(this.listOfItems))
+        this.toggleMenu();
     }
 
     deleteContact(id, groupeName) {
@@ -38,9 +40,17 @@ class Controller {
             currentContact.phone = phone;
             localStorage.setItem('items', JSON.stringify(this.listOfItems))
         }
+        this.toggleMenu();
     }
 
-    updateGroupNames(inputValues) {
+    updateGroupNames() {
+        const allInputs = document.querySelectorAll('.menu__input');
+        const inputValues = [];
+        allInputs.forEach(input => {
+            if (input.value) {
+                inputValues.push(input.value);
+            }
+        })
         const newNameArr = new Set([...inputValues])
         const newItems = {};
         newNameArr.forEach(item => {
@@ -51,9 +61,10 @@ class Controller {
             }
         })
         localStorage.setItem('items', JSON.stringify(newItems))
+        this.toggleMenu();
     }
 
-    openMenu() {
+    toggleMenu() {
         const headerMenu = document.querySelector('.header__menu');
         const contactsBtn = document.querySelector('.buttons__contact');
         const groupBtn = document.querySelector('.buttons__group');

@@ -11,10 +11,10 @@ class Model {
         const contactsBtn = document.querySelector('.buttons__contact');
         const groupBtn = document.querySelector('.buttons__group');
         contactsBtn.addEventListener('click', () => {
-            this.view.renderContactEditor(this.groupNameArr)
+            this.view.renderContactEditor()
         });
         groupBtn.addEventListener('click', () => {
-            this.view.renderGroupEditor(this.groupNameArr)
+            this.view.renderGroupEditor()
         });
         this.view.renderItems(this.listOfItems, this.groupNameArr);
     }

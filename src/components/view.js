@@ -9,10 +9,10 @@ class View {
 
     renderItems(items, groupNameArr) {
         const { body } = document;
-        const itemsWrapper = this.createEl.create('div', '', 'container', body);
-        this.createEl.create('div', '', 'items', itemsWrapper);
+        const itemsElement = document.querySelector('.items');
+        itemsElement.innerHTML = '';
         groupNameArr.forEach((groupName) => {
-            const itemGroup = this.createEl.create('div', '', 'items__wrapper', itemsWrapper);
+            const itemGroup = this.createEl.create('div', '', 'items__wrapper', itemsElement);
             this.createEl.create('div', groupName, 'items__title', itemGroup);
             items[groupName].forEach((item) => {
                 const itemEL = this.createEl.create('div', '', 'item', itemGroup);
@@ -21,14 +21,19 @@ class View {
                 const editBtn = this.createEl.create('button', 'edit', 'item__btn item__btn_edit', itemEL);
                 const deleteBtn = this.createEl.create('button', 'delete', 'item__btn item__btn_delete', itemEL);
                 editBtn.addEventListener('click', () => {
-                    this.renderContactEditor(groupNameArr, item.id, item.name, item.phone, groupName);
+                    this.renderContactEditor(item.id, item.name, item.phone, groupName);
                 })
                 deleteBtn.addEventListener('click', () => {
                     itemGroup.removeChild(itemEL);
-                    this.controller.deleteContact(item.id, groupName)
                 })
             })
         });
+    }
+
+    reRenderItems() {
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const groupNameArr = Object.keys(listOfItems);
+        this.renderItems(listOfItems, groupNameArr)
     }
 
     renderMenu(title) {
@@ -38,13 +43,18 @@ class View {
             const menuWrapper = this.createEl.create('div', '', 'menu__wrapper', headerMenu);
             const menuTop = this.createEl.create('div', '', 'menu__top', menuWrapper);
             this.createEl.create('div', title, 'menu__title', menuTop);
-            this.createEl.create('button', 'close', 'menu__button', menuTop);
+            const closeMenuBtn = this.createEl.create('button', 'close', 'menu__button', menuTop);
+            closeMenuBtn.addEventListener('click', () => {
+                this.controller.toggleMenu();
+            })
             return [headerMenu, menuWrapper]
         }
     }
 
-    renderContactEditor(groupNameArr, id, name, phone, groupName) {
-        this.controller.openMenu();
+    renderContactEditor(id, name, phone, groupName) {
+        this.controller.toggleMenu();
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const groupNameArr = Object.keys(listOfItems);
         const [headerMenu, menuWrapper] = this.renderMenu('Добавление контакта');
         if (headerMenu) {
             const menuCenter = this.createEl.create('div', '', 'menu__center', menuWrapper);
@@ -64,22 +74,25 @@ class View {
                 saveBtn.addEventListener('click', () => {
                     if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
                         this.controller.updateContact(id, inputName.value, inputPhone.value, select.value, groupName);
+                        this.reRenderItems();
                     }
                 })
             } else {
                 saveBtn.addEventListener('click', () => {
                     if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
                         this.controller.addContact(inputName.value, inputPhone.value, select.value);
+                        this.reRenderItems();
                     }
                 })
             }
         }
     }
 
-    renderGroupEditor(groupNameArr) {
-        this.controller.openMenu();
+    renderGroupEditor() {
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const groupNameArr = Object.keys(listOfItems);
+        this.controller.toggleMenu();
         const [headerMenu, menuWrapper] = this.renderMenu('Добавление группы');
-        let inputValues = [];
         if (headerMenu) {
             const menuCenter = this.createEl.create('div', '', 'menu__center', menuWrapper);
             const menuBottom = this.createEl.create('div', '', 'menu__bottom', menuWrapper);
@@ -109,14 +122,8 @@ class View {
                 menuCenter.append(menuItem);
             })
             saveGroupeBtn.addEventListener('click', () => {
-                const allInputs = document.querySelectorAll('.menu__input');
-                inputValues = [];
-                allInputs.forEach(input => {
-                    if (input.value) {
-                        inputValues.push(input.value);
-                    }
-                })
-                this.controller.updateGroupNames(inputValues)
+                this.controller.updateGroupNames();
+                this.reRenderItems();
             })
         }
     }
