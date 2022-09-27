@@ -1,15 +1,26 @@
-import View from "./views/itemsView";
+import View from "./view";
 
 class Model {
     constructor() {
         this.view = new View();
-        this.listOfItems = JSON.parse(localStorage.getItem('items'))
+        this.listOfItems = JSON.parse(localStorage.getItem('items'));
+        this.groupNameArr = Object.keys(this.listOfItems);
     }
 
-    showItems() {
-        if (Object.keys(this.listOfItems).length) {
-            this.view.renderItems(this.listOfItems)
-        }
+    createItems() {
+        const contactsBtn = document.querySelector('.buttons__contact');
+        const groupBtn = document.querySelector('.buttons__group');
+        contactsBtn.addEventListener('click', () => {
+            this.view.renderContactEditor(this.groupNameArr)
+        });
+        groupBtn.addEventListener('click', () => {
+            this.view.renderGroupEditor(this.groupNameArr)
+        });
+        this.view.renderItems(this.listOfItems, this.groupNameArr);
+    }
+
+    handlAddGroup(data) {
+        this.model.updateGroup(data)
     }
 }
 
