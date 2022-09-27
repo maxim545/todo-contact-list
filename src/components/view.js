@@ -23,6 +23,10 @@ class View {
                 editBtn.addEventListener('click', () => {
                     this.renderContactEditor(groupNameArr, item.id, item.name, item.phone, groupName);
                 })
+                deleteBtn.addEventListener('click', () => {
+                    itemGroup.removeChild(itemEL);
+                    this.controller.deleteContact(item.id, groupName)
+                })
             })
         });
     }

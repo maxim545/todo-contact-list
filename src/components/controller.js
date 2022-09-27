@@ -15,6 +15,12 @@ class Controller {
         localStorage.setItem('items', JSON.stringify(this.listOfItems))
     }
 
+    deleteContact(id, groupeName) {
+        const currentIndex = this.listOfItems[groupeName].findIndex(el => el.id === id);
+        this.listOfItems[groupeName].splice(currentIndex, 1);
+        localStorage.setItem('items', JSON.stringify(this.listOfItems))
+    }
+
     updateContact(id, name, phone, newGroupe, oldGroupe) {
         const newContact = {
             id: this.listOfItems[newGroupe].length + 1,
