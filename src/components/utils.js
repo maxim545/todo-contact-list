@@ -13,5 +13,8 @@ contactsBtn.addEventListener("click", openMenu)
 groupBtn.addEventListener("click", openMenu)
 
 window.addEventListener('click', function (e) {
-    if (!headerMenu.contains(e.target) && (!contactsBtn.contains(e.target)) && menuIsOpen) { openMenu() }
+    if (!headerMenu.contains(e.target) &&
+        (!contactsBtn.contains(e.target)) &&
+        !groupBtn.contains(e.target) &&
+        menuIsOpen) { openMenu() }
 })
