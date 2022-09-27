@@ -1,0 +1,49 @@
+
+
+//Global
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1130px
+}
+
+// Header
+
+.header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__menu {
+  position: fixed;
+  left: -100%;
+  top: 0;
+  transform: translateX(100%);
+  min-width: 312px;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  padding: 0 10px;
+  overflow: auto;
+  z-index: 3;
+  background-color: #999;
+  transition: 0.6s ease-in-out;
+}
+
+.header__menu_active {
+  left: 0;
+  transform: translateX(0);
+  transition: 0.4s ease-in-out;
+}
+
+
+
+// Contacts list
+
+
+.contacts {
+
+}
