@@ -1,49 +1,52 @@
 
 class Controller {
     constructor() {
-        this.listOfItems = JSON.parse(localStorage.getItem('items'));
-        this.groupNameArr = Object.keys(this.listOfItems);
     }
 
 
     addContact(name, phone, groupe) {
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
         const newContact = {
-            id: this.listOfItems[groupe].length + 1,
+            id: listOfItems[groupe].length,
             name,
             phone,
         }
-        this.listOfItems[groupe].push(newContact);
-        localStorage.setItem('items', JSON.stringify(this.listOfItems))
+        listOfItems[groupe].push(newContact);
+        localStorage.setItem('items', JSON.stringify(listOfItems))
         this.toggleMenu();
     }
 
     deleteContact(id, groupeName) {
-        const currentIndex = this.listOfItems[groupeName].findIndex(el => el.id === id);
-        this.listOfItems[groupeName].splice(currentIndex, 1);
-        localStorage.setItem('items', JSON.stringify(this.listOfItems))
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const currentIndex = listOfItems[groupeName].findIndex(el => el.id === id);
+        listOfItems[groupeName].splice(currentIndex, 1);
+        localStorage.setItem('items', JSON.stringify(listOfItems))
     }
 
     updateContact(id, name, phone, newGroupe, oldGroupe) {
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
         const newContact = {
-            id: this.listOfItems[newGroupe].length + 1,
+            id: listOfItems[newGroupe].length,
             name,
             phone,
         }
         if (newGroupe !== oldGroupe) {
-            const currentIndex = this.listOfItems[oldGroupe].findIndex(el => el.id === id);
-            this.listOfItems[oldGroupe].splice(currentIndex, 1);
-            this.listOfItems[newGroupe].push(newContact);
-            localStorage.setItem('items', JSON.stringify(this.listOfItems))
+            const currentIndex = listOfItems[oldGroupe].findIndex(el => el.id === id);
+            listOfItems[oldGroupe].splice(currentIndex, 1);
+            listOfItems[newGroupe].push(newContact);
+            localStorage.setItem('items', JSON.stringify(listOfItems))
         } else {
-            const currentContact = this.listOfItems[newGroupe].find(el => el.id === id);
+            const currentContact = listOfItems[newGroupe].find(el => el.id === id);
             currentContact.name = name;
             currentContact.phone = phone;
-            localStorage.setItem('items', JSON.stringify(this.listOfItems))
+            localStorage.setItem('items', JSON.stringify(listOfItems))
         }
         this.toggleMenu();
     }
 
     updateGroupNames() {
+        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const groupNameArr = Object.keys(listOfItems);
         const allInputs = document.querySelectorAll('.menu__input');
         const inputValues = [];
         allInputs.forEach(input => {
@@ -54,8 +57,8 @@ class Controller {
         const newNameArr = new Set([...inputValues])
         const newItems = {};
         newNameArr.forEach(item => {
-            if (this.groupNameArr.includes(item)) {
-                newItems[item] = this.listOfItems[item]
+            if (groupNameArr.includes(item)) {
+                newItems[item] = listOfItems[item]
             } else {
                 newItems[item] = [];
             }
@@ -63,6 +66,7 @@ class Controller {
         localStorage.setItem('items', JSON.stringify(newItems))
         this.toggleMenu();
     }
+
 
     toggleMenu() {
         const blur = document.querySelector('.blur');
@@ -73,6 +77,37 @@ class Controller {
         let menuIsOpen = false;
         headerMenu.classList.toggle("header__menu_active")
         menuIsOpen = !menuIsOpen
+    }
+
+    makeNameMask(e, element, btn) {
+        const value = e.target.value;
+        const valueArr = value.split(" ").filter(str => str.trim() != '')
+        if (valueArr.length !== 3 || value.length <= 9 || /\d/.test(value)) {
+            element.innerHTML = 'Введите ФИО в формате "Фамилия Имя Отчество"';
+            btn.disabled = true;
+        } else {
+            element.innerHTML = '';
+            btn.disabled = false;
+
+        }
+    }
+
+    makePhoneMask(e, element, btn) {
+        const matrix = "+7 (___) ___ - __ - __";
+        const def = matrix.replace(/\D/g, "");
+        let i = 0;
+        let val = e.target.value.replace(/\D/g, "");
+        if (def.length >= val.length) { val = def };
+        e.target.value = matrix.replace(/./g, (a) =>
+            /[_\d]/.test(a) && i < val.length ? val.charAt(i++) :
+                i >= val.length ? "" : a);
+        if (e.target.value.length !== 22) {
+            element.innerHTML = 'Введите номер в формате +7 (XXX) XXX-XX-XX';
+            btn.disabled = true;
+        } else {
+            element.innerHTML = ''
+            btn.disabled = false;
+        }
     }
 
 }

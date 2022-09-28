@@ -24,7 +24,7 @@ class View {
                 this.createEl.create('div', groupName, 'tab__header', label);
                 const content = this.createEl.create('div', '', 'tab__content', itemEL);
                 if (!items[groupName].length) {
-                    const lisOfCOntacts = this.createEl.create('div', `Список ${groupName.toLowerCase()} пуст`, 'tab__item', content);
+                    this.createEl.create('div', `Список ${groupName.toLowerCase()} пуст`, 'tab__item', content);
                 } else {
                     items[groupName].forEach((item) => {
                         const contactEl = this.createEl.create('div', '', 'tab__item item', content);
@@ -37,13 +37,17 @@ class View {
                         })
                         deleteBtn.addEventListener('click', () => {
                             content.removeChild(contactEl);
-                            this.controller.deleteContact(item.id, groupName)
+                            this.controller.deleteContact(item.id, groupName);
+                            if (!item.id) {
+                                this.createEl.create('div', `Список ${groupName.toLowerCase()} пуст`, 'tab__item', content);
+                            }
                         })
                     })
                 }
             });
         } else {
-            const itemMessage = this.createEl.create('div', 'Список контактов пуст', 'tabs__message', itemsElement);
+            itemsElement.innerHTML = '';
+            this.createEl.create('div', 'Список контактов пуст', 'tabs__message', itemsElement);
         }
     }
 
@@ -75,33 +79,41 @@ class View {
         const [headerMenu, menuWrapper] = this.renderMenu('Добавление контакта');
         if (headerMenu) {
             const menuCenter = this.createEl.create('div', '', 'menu__center', menuWrapper);
-            const inputName = this.createEl.create('input', '', 'menu__input', menuCenter);
+            const menuItemName = this.createEl.create('div', '', 'menu__item', menuCenter);
+            const inputName = this.createEl.create('input', '', 'menu__input', menuItemName);
+            inputName.placeholder = 'Введите ФИО';
+            const nameSubtitle = this.createEl.create('p', '', 'menu__subtitle', menuItemName);
             if (name) { inputName.value = name; }
-            const inputPhone = this.createEl.create('input', '', 'menu__input', menuCenter);
+
+            const menuItemPhone = this.createEl.create('div', '', 'menu__item', menuCenter);
+            const inputPhone = this.createEl.create('input', '', 'menu__input', menuItemPhone);
+            inputPhone.placeholder = 'Введите номер';
+            const phoneSubtitle = this.createEl.create('p', '', 'menu__subtitle', menuItemPhone);
             if (phone) { inputPhone.value = phone; }
+
             const select = this.createEl.create('select', '', 'menu__select', menuCenter);
             this.createEl.create('option', 'Выберите группу', 'menu__option', select);
             groupNameArr.forEach(name => {
                 this.createEl.create('option', name, 'menu__option', select);
             })
-            if (groupName) { select.value = groupName }
+            if (groupName) { select.value = groupName; }
             const menuBottom = this.createEl.create('div', '', 'menu__bottom', menuWrapper);
             const saveBtn = this.createEl.create('button', 'Сохранить', 'btn btn_blue menu__btn', menuBottom);
-            if (id) {
-                saveBtn.addEventListener('click', () => {
-                    if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
+            const btnSubtitle = this.createEl.create('p', '', 'menu__subtitle', menuBottom);
+            inputName.addEventListener('input', (e) => { this.controller.makeNameMask(e, nameSubtitle, saveBtn) })
+            inputPhone.addEventListener('input', (e) => { this.controller.makePhoneMask(e, phoneSubtitle, saveBtn) })
+            saveBtn.addEventListener('click', () => {
+                if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
+                    if (id) {
                         this.controller.updateContact(id, inputName.value, inputPhone.value, select.value, groupName);
-                        this.reRenderItems();
-                    }
-                })
-            } else {
-                saveBtn.addEventListener('click', () => {
-                    if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
+                    } else {
                         this.controller.addContact(inputName.value, inputPhone.value, select.value);
-                        this.reRenderItems();
                     }
-                })
-            }
+                    this.reRenderItems();
+                } else {
+                    btnSubtitle.innerHTML = 'Заполните все поля'
+                }
+            })
         }
     }
 
@@ -131,6 +143,7 @@ class View {
                 const menuItem = this.createEl.create('div', '', 'menu__item', menuCenter);
                 const input = this.createEl.create('input', '', 'menu__input menu__input_groupe', menuItem);
                 input.type = 'text';
+                input.placeholder = 'Ввведите название'
                 const deletNameBtn = this.createEl.create('button', '', 'btn btn_delete menu__button ', menuItem);
                 deletNameBtn.addEventListener('click', (e) => {
                     e.stopPropagation();

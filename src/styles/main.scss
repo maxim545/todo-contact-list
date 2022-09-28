@@ -64,6 +64,12 @@ body {
     transition: 0.4s ease-in-out;
   }
 
+  &_blue:disabled {
+    background-color: #0d316e;
+    cursor: default;
+    color:#dadada;
+  }
+
   &_delete {
     display: block;
     width: 38px;
@@ -268,6 +274,7 @@ body {
   &__item {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
   }
   
   &__bottom {
@@ -289,6 +296,13 @@ body {
   &__btn_add:hover {
     background-color: $light;
     transition: 0.4s ease-in-out;
+  }
+
+  &__subtitle {
+    display: block;
+    margin: 4px 0 0 0;
+    font-size: 11px;
+    color: red;
   }
 
 
