@@ -7,27 +7,44 @@ class View {
         this.createEl = new CreateElement();
     }
 
+
+
     renderItems(items, groupNameArr) {
-        const { body } = document;
-        const itemsElement = document.querySelector('.items');
-        itemsElement.innerHTML = '';
-        groupNameArr.forEach((groupName) => {
-            const itemGroup = this.createEl.create('div', '', 'items__wrapper', itemsElement);
-            this.createEl.create('div', groupName, 'items__title', itemGroup);
-            items[groupName].forEach((item) => {
-                const itemEL = this.createEl.create('div', '', 'item', itemGroup);
-                this.createEl.create('div', item.name, 'item__name', itemEL);
-                this.createEl.create('div', item.phone, 'item__name', itemEL);
-                const editBtn = this.createEl.create('button', 'edit', 'item__btn item__btn_edit', itemEL);
-                const deleteBtn = this.createEl.create('button', 'delete', 'item__btn item__btn_delete', itemEL);
-                editBtn.addEventListener('click', () => {
-                    this.renderContactEditor(item.id, item.name, item.phone, groupName);
-                })
-                deleteBtn.addEventListener('click', () => {
-                    itemGroup.removeChild(itemEL);
-                })
-            })
-        });
+        const itemsElement = document.querySelector('.tabs');
+        if (groupNameArr.length) {
+            itemsElement.innerHTML = '';
+            const itemGroup = this.createEl.create('div', '', 'tabs__wrapper', itemsElement);
+            groupNameArr.forEach((groupName, i) => {
+                const itemEL = this.createEl.create('div', '', 'tab', itemGroup);
+                const input = this.createEl.create('input', '', 'tab__input', itemEL);
+                input.type = 'checkbox';
+                input.id = `tab_${i}`;
+                const label = this.createEl.create('label', '', 'tab__label', itemEL);
+                label.htmlFor = `tab_${i}`;
+                this.createEl.create('div', groupName, 'tab__header', label);
+                const content = this.createEl.create('div', '', 'tab__content', itemEL);
+                if (!items[groupName].length) {
+                    const lisOfCOntacts = this.createEl.create('div', `Список ${groupName.toLowerCase()} пуст`, 'tab__item', content);
+                } else {
+                    items[groupName].forEach((item) => {
+                        const contactEl = this.createEl.create('div', '', 'tab__item item', content);
+                        this.createEl.create('div', item.name, 'item__name', contactEl);
+                        this.createEl.create('div', item.phone, 'item__phone', contactEl);
+                        const editBtn = this.createEl.create('button', '', 'btn btn_edit', contactEl);
+                        const deleteBtn = this.createEl.create('button', '', 'btn btn_delete', contactEl);
+                        editBtn.addEventListener('click', () => {
+                            this.renderContactEditor(item.id, item.name, item.phone, groupName);
+                        })
+                        deleteBtn.addEventListener('click', () => {
+                            content.removeChild(contactEl);
+                            this.controller.deleteContact(item.id, groupName)
+                        })
+                    })
+                }
+            });
+        } else {
+            const itemMessage = this.createEl.create('div', 'Список контактов пуст', 'tabs__message', itemsElement);
+        }
     }
 
     reRenderItems() {
