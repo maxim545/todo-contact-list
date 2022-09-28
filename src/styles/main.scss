@@ -9,12 +9,15 @@ $light: #ced8e7;
 $gray: #797979;
 $dark-blue: #0047C6;
 $red: #EA3D2F;
+$light-red: #f81155;
 $main-font: 'Arial';
 $box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
 
 
 body {
   font-family: $main-font;
+  background-color: #f6f7f9;
+
 }
 
 //Global
@@ -27,6 +30,39 @@ body {
 .btn {
   border: 0;
   cursor: pointer;
+
+  &_red {
+    padding: 10px 35px 10px 15px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+    border-radius: 6px;
+    background-color: $light-red;
+    background-image: url(../assets/icons/plus.svg);
+    background-repeat: no-repeat;
+    background-position: 150px center;
+  }
+
+  &_red:hover {
+    background-color: #D1003E;
+    transition: 0.4s ease-in-out;
+  }
+
+  &_blue {
+    padding: 10px 15px;
+    background: $blue;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+    border-radius: 6px;
+  }
+
+  &_blue:hover {
+    background-color: $dark-blue;
+    transition: 0.4s ease-in-out;
+  }
 
   &_delete {
     display: block;
@@ -50,10 +86,30 @@ body {
 // Header
 
 .header {
+  background-color: #fff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+
   &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 16px 0;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 120%;
+    color: $blue;
+  }
+
+  &__img {
+    margin-right: 16px;
   }
 
   &__menu {
@@ -215,20 +271,6 @@ body {
     transition: 0.4s ease-in-out;
   }
 
-  &__btn_save {
-    padding: 10px 15px;
-    background: $blue;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 18px;
-    color: #FFFFFF;
-  }
-
-  &__btn_save:hover {
-    background-color: $dark-blue;
-    transition: 0.4s ease-in-out;
-  }
 
 }
 

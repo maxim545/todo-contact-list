@@ -69,7 +69,7 @@ class View {
             })
             if (groupName) { select.value = groupName }
             const menuBottom = this.createEl.create('div', '', 'menu__bottom', menuWrapper);
-            const saveBtn = this.createEl.create('button', 'Сохранить', 'btn menu__btn menu__btn_save', menuBottom);
+            const saveBtn = this.createEl.create('button', 'Сохранить', 'btn btn_blue menu__btn', menuBottom);
             if (id) {
                 saveBtn.addEventListener('click', () => {
                     if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
@@ -109,7 +109,7 @@ class View {
                 });
             })
             const addGroupBtn = this.createEl.create('button', 'Добавить', 'btn menu__btn menu__btn_add', menuBottom);
-            const saveGroupeBtn = this.createEl.create('button', 'Сохранить', 'btn menu__btn menu__btn_save', menuBottom);
+            const saveGroupeBtn = this.createEl.create('button', 'Сохранить', 'btn btn_blue menu__btn', menuBottom);
             addGroupBtn.addEventListener('click', () => {
                 const menuItem = this.createEl.create('div', '', 'menu__item', menuCenter);
                 const input = this.createEl.create('input', '', 'menu__input menu__input_groupe', menuItem);
