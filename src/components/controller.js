@@ -2,7 +2,7 @@ class Controller {
     constructor() {
     }
     addContact(name, phone, groupe) {
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const newContact = {
             id: listOfItems[groupe].length,
             name,
@@ -21,7 +21,7 @@ class Controller {
     }
 
     updateContact(id, name, phone, newGroupe, oldGroupe) {
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const newContact = {
             id: listOfItems[newGroupe].length,
             name,
@@ -42,7 +42,7 @@ class Controller {
     }
 
     updateGroupNames() {
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const groupNameArr = Object.keys(listOfItems);
         const allInputs = document.querySelectorAll('.menu__input');
         const inputValues = [];

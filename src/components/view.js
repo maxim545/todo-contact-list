@@ -51,7 +51,7 @@ class View {
     }
 
     reRenderItems() {
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const groupNameArr = Object.keys(listOfItems);
         this.renderItems(listOfItems, groupNameArr)
     }
@@ -73,7 +73,7 @@ class View {
 
     renderContactEditor(id, name, phone, groupName) {
         this.controller.toggleMenu();
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const groupNameArr = Object.keys(listOfItems);
         const [headerMenu, menuWrapper] = this.renderMenu('Добавление контакта');
         if (headerMenu) {
@@ -117,7 +117,7 @@ class View {
     }
 
     renderGroupEditor() {
-        const listOfItems = JSON.parse(localStorage.getItem('items'));
+        const listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         const groupNameArr = Object.keys(listOfItems);
         this.controller.toggleMenu();
         const [headerMenu, menuWrapper] = this.renderMenu('Добавление группы');

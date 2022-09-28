@@ -3,7 +3,7 @@ import View from "./view";
 class Model {
     constructor() {
         this.view = new View();
-        this.listOfItems = JSON.parse(localStorage.getItem('items'));
+        this.listOfItems = JSON.parse(localStorage.getItem('items')) || {};
         this.groupNameArr = Object.keys(this.listOfItems);
     }
 
