@@ -7,8 +7,6 @@ class View {
         this.createEl = new CreateElement();
     }
 
-
-
     renderItems(items, groupNameArr) {
         const itemsElement = document.querySelector('.tabs');
         if (groupNameArr.length) {
@@ -30,8 +28,9 @@ class View {
                         const contactEl = this.createEl.create('div', '', 'tab__item item', content);
                         this.createEl.create('div', item.name, 'item__name', contactEl);
                         this.createEl.create('div', item.phone, 'item__phone', contactEl);
-                        const editBtn = this.createEl.create('button', '', 'btn btn_edit', contactEl);
-                        const deleteBtn = this.createEl.create('button', '', 'btn btn_delete', contactEl);
+                        const itemBtns = this.createEl.create('div', '', 'item__btns', contactEl);
+                        const editBtn = this.createEl.create('button', '', 'btn btn_edit item__btn', itemBtns);
+                        const deleteBtn = this.createEl.create('button', '', 'btn btn_delete item__btn', itemBtns);
                         editBtn.addEventListener('click', () => {
                             this.renderContactEditor(item.id, item.name, item.phone, groupName);
                         })

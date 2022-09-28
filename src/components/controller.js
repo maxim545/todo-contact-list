@@ -1,9 +1,6 @@
-
 class Controller {
     constructor() {
     }
-
-
     addContact(name, phone, groupe) {
         const listOfItems = JSON.parse(localStorage.getItem('items'));
         const newContact = {

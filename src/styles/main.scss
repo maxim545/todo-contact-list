@@ -138,7 +138,7 @@ body {
     position: fixed;
     left: -100%;
     top: 0;
-    transform: translateX(100%);
+    transform: translateX(-100%);
     width: 312px;
     height: 100%;
     display: flex;
@@ -397,8 +397,9 @@ body {
   }
   
   &__item {
-    display: grid;
-    grid-template-columns:  8fr 2fr 0.5fr 0.5fr;
+    display: flex;
+    justify-content: space-between;
+    gap: 0 20px;
     align-items: center;
     border-top: 1px solid #f6f6f6;
     padding: 15px 0;
@@ -435,9 +436,34 @@ body {
   font-size: 18px;
   line-height: 120%;
   color: #000000;
+  margin-left: auto;
+  }
+
+  &__btns {
+    display: flex;
+    gap: 0 15px;
   }
 }
 
 
+@media (max-width : 767px) {
+  .item {
+      flex-direction: column;
+      gap: 30px 0;
+  }
+
+  .item__phone {
+      margin-left: 0px;
+  }
+  
+}
 
 
+@media (max-width : 650px) {
+
+  .header__wrapper {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+}
