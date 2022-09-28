@@ -65,6 +65,8 @@ class Controller {
     }
 
     toggleMenu() {
+        const blur = document.querySelector('.blur');
+        blur.classList.toggle("active")
         const headerMenu = document.querySelector('.header__menu');
         const contactsBtn = document.querySelector('.buttons__contact');
         const groupBtn = document.querySelector('.buttons__group');

@@ -41,9 +41,9 @@ class View {
         if (headerMenu) {
             headerMenu.innerHTML = '';
             const menuWrapper = this.createEl.create('div', '', 'menu__wrapper', headerMenu);
-            const menuTop = this.createEl.create('div', '', 'menu__top', menuWrapper);
+            const menuTop = this.createEl.create('div', '', 'menu__top ', menuWrapper);
             this.createEl.create('div', title, 'menu__title', menuTop);
-            const closeMenuBtn = this.createEl.create('button', 'close', 'menu__button', menuTop);
+            const closeMenuBtn = this.createEl.create('button', '', 'btn menu__button menu__button_top', menuTop);
             closeMenuBtn.addEventListener('click', () => {
                 this.controller.toggleMenu();
             })
@@ -69,7 +69,7 @@ class View {
             })
             if (groupName) { select.value = groupName }
             const menuBottom = this.createEl.create('div', '', 'menu__bottom', menuWrapper);
-            const saveBtn = this.createEl.create('button', 'Сохранить', 'menu__btn', menuBottom);
+            const saveBtn = this.createEl.create('button', 'Сохранить', 'btn menu__btn menu__btn_save', menuBottom);
             if (id) {
                 saveBtn.addEventListener('click', () => {
                     if (inputName.value && inputPhone.value && select.value !== 'Выберите группу') {
@@ -98,23 +98,23 @@ class View {
             const menuBottom = this.createEl.create('div', '', 'menu__bottom', menuWrapper);
             groupNameArr.forEach(name => {
                 const menuItem = this.createEl.create('div', '', 'menu__item', menuCenter);
-                const input = this.createEl.create('input', '', 'menu__input', menuItem);
+                const input = this.createEl.create('input', '', 'menu__input menu__input_groupe', menuItem);
                 input.type = 'text';
                 input.disabled = true
                 input.value = name;
-                const deletNameBtn = this.createEl.create('button', 'del', 'menu__button', menuItem);
+                const deletNameBtn = this.createEl.create('button', '', 'btn btn_delete menu__button', menuItem);
                 deletNameBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     menuCenter.removeChild(menuItem);
                 });
             })
-            const addGroupBtn = this.createEl.create('button', 'Добавить', 'menu__btn', menuBottom);
-            const saveGroupeBtn = this.createEl.create('button', 'Сохранить', 'menu__btn menu__btn_save', menuBottom);
+            const addGroupBtn = this.createEl.create('button', 'Добавить', 'btn menu__btn menu__btn_add', menuBottom);
+            const saveGroupeBtn = this.createEl.create('button', 'Сохранить', 'btn menu__btn menu__btn_save', menuBottom);
             addGroupBtn.addEventListener('click', () => {
                 const menuItem = this.createEl.create('div', '', 'menu__item', menuCenter);
-                const input = this.createEl.create('input', '', 'menu__input', menuItem);
+                const input = this.createEl.create('input', '', 'menu__input menu__input_groupe', menuItem);
                 input.type = 'text';
-                const deletNameBtn = this.createEl.create('button', 'del', 'menu__button', menuItem);
+                const deletNameBtn = this.createEl.create('button', '', 'btn btn_delete menu__button ', menuItem);
                 deletNameBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     menuCenter.removeChild(menuItem);
